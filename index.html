@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TechBot — FAQ Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0d0f18;--surface:#151722;--card:#1e2133;--border:#2a2d42;--accent:#4f8ef7;--accent2:#38d9a9;--text:#e8eaf6;--muted:#7b82a8;--user-bg:#1e3a6e;--radius:16px}
+body{font-family:'Sora',sans-serif;background:radial-gradient(ellipse at top left,#0d1b3e 0%,#0d0f18 50%,#0a1628 100%);color:var(--text);height:100vh;display:flex;align-items:center;justify-content:center}
+.chat-wrapper{width:100%;max-width:720px;height:92vh;display:flex;flex-direction:column;border:1px solid var(--border);border-radius:24px;overflow:hidden;background:var(--surface);box-shadow:0 0 60px rgba(79,142,247,0.15),0 30px 80px rgba(0,0,0,0.6)}
+.chat-header{padding:18px 24px;background:rgba(30,33,51,0.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px}
+.header-avatar{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;animation:float 3s ease-in-out infinite;box-shadow:0 0 20px rgba(79,142,247,0.5)}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.header-info h1{font-size:16px;font-weight:600}
+.header-info p{font-size:12px;color:var(--accent2);margin-top:2px}
+.status-dot{width:8px;height:8px;background:var(--accent2);border-radius:50%;margin-left:auto;box-shadow:0 0 8px var(--accent2);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.chat-messages{flex:1;overflow-y:auto;padding:24px 20px;display:flex;flex-direction:column;gap:16px;scroll-behavior:smooth}
+.chat-messages::-webkit-scrollbar{width:6px}
+.chat-messages::-webkit-scrollbar-track{background:var(--bg)}
+.chat-messages::-webkit-scrollbar-thumb{background:linear-gradient(var(--accent),var(--accent2));border-radius:4px}
+.message{display:flex;gap:10px;animation:fadeUp 0.3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.message.user{flex-direction:row-reverse}
+.bubble-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:var(--card);border:1px solid var(--border)}
+.message.user .bubble-avatar{background:linear-gradient(135deg,var(--accent),#2563eb)}
+.bubble-content{max-width:75%;display:flex;flex-direction:column;gap:4px}
+.message.user .bubble-content{align-items:flex-end}
+.bubble{padding:12px 16px;border-radius:16px;font-size:14px;line-height:1.6;border:1px solid transparent;transition:transform 0.2s ease}
+.bubble:hover{transform:translateX(3px)}
+.message.user .bubble:hover{transform:translateX(-3px)}
+.message.bot .bubble{background:var(--card);border-color:var(--border);border-top-left-radius:4px}
+.message.user .bubble{background:var(--user-bg);border-color:#2a4a8a;border-top-right-radius:4px;color:#c8d8ff}
+.confidence{font-size:10px;color:var(--accent2);background:rgba(56,217,169,0.1);border:1px solid rgba(56,217,169,0.2);padding:2px 8px;border-radius:20px;align-self:flex-start}
+.typing{display:none}
+.typing.show{display:flex}
+.typing-dots{background:var(--card);border:1px solid var(--border);border-radius:16px;border-top-left-radius:4px;padding:14px 18px;display:flex;gap:5px;align-items:center}
+.typing-dots span{width:7px;height:7px;background:var(--muted);border-radius:50%;animation:bounce 1.2s infinite}
+.typing-dots span:nth-child(2){animation-delay:0.2s}
+.typing-dots span:nth-child(3){animation-delay:0.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.suggestions{padding:0 20px 12px;display:flex;flex-wrap:wrap;gap:8px}
+.suggestion-chip{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all 0.2s ease;font-family:'Sora',sans-serif}
+.suggestion-chip:hover{border-color:var(--accent);color:var(--accent);background:rgba(79,142,247,0.08);box-shadow:0 0 12px rgba(79,142,247,0.3);transform:translateY(-2px)}
+.chat-input{padding:16px 20px;background:var(--card);border-top:1px solid var(--border);display:flex;gap:12px;align-items:center}
+.chat-input input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px 18px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s,box-shadow 0.2s}
+.chat-input input:focus{border-color:var(--accent);box-shadow:0 0 15px rgba(79,142,247,0.2)}
+.chat-input input::placeholder{color:var(--muted)}
+.send-btn{width:46px;height:46px;background:linear-gradient(135deg,var(--accent),#2563eb);border:none;border-radius:12px;color:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform 0.15s,box-shadow 0.15s;flex-shrink:0;box-shadow:0 0 20px rgba(79,142,247,0.4)}
+.send-btn:hover{transform:scale(1.1);box-shadow:0 0 30px rgba(79,142,247,0.7)}
+.send-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none}
+@media(max-width:600px){.chat-wrapper{height:100vh;border-radius:0;border:none}.bubble-content{max-width:88%}}
+</style>
+</head>
+<body>
+<div class="chat-wrapper">
+  <div class="chat-header">
+    <div class="header-avatar">🤖</div>
+    <div class="header-info"><h1>TechBot</h1><p>Online Store Assistant</p></div>
+    <div class="status-dot"></div>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="message bot typing" id="typingIndicator">
+    <div class="bubble-avatar">🤖</div>
+    <div class="typing-dots"><span></span><span></span><span></span></div>
+  </div>
+  <div class="suggestions" id="suggestions">
+    <div class="suggestion-chip" onclick="sendSuggestion('How do I track my order?')">Track order</div>
+    <div class="suggestion-chip" onclick="sendSuggestion('What is the return policy?')">Return policy</div>
+    <div class="suggestion-chip" onclick="sendSuggestion('What payment methods are accepted?')">Payment methods</div>
+    <div class="suggestion-chip" onclick="sendSuggestion('How do I cancel my order?')">Cancel order</div>
+  </div>
+  <div class="chat-input">
+    <input type="text" id="userInput" placeholder="Ask me anything..." autocomplete="off"/>
+    <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script>
+// ── FAQ DATA ─────────────────────────────────────────────
+const faqs = [
+  {q:"How do I track my order?",a:"You can track your order by visiting the 'My Orders' section in your account and clicking on the tracking link."},
+  {q:"What is the return policy?",a:"You can return any item within 30 days of purchase. The item must be unused and in its original packaging."},
+  {q:"How long does delivery take?",a:"Standard delivery takes 3-5 business days. Express delivery takes 1-2 business days."},
+  {q:"Do you offer international shipping?",a:"Yes, we ship to over 50 countries. International shipping takes 7-14 business days."},
+  {q:"What payment methods are accepted?",a:"We accept Visa, MasterCard, American Express, PayPal, and Apple Pay."},
+  {q:"How do I cancel my order?",a:"You can cancel your order within 24 hours of placing it by going to 'My Orders' and clicking 'Cancel Order'."},
+  {q:"Is my payment information secure?",a:"Yes, all payments are encrypted with SSL technology. We never store your full card details."},
+  {q:"How do I apply a discount code?",a:"Enter your discount code in the 'Promo Code' field at checkout and click 'Apply'."},
+  {q:"What should I do if I receive a damaged product?",a:"Take photos of the damaged item and contact our support team within 48 hours. We will send a replacement immediately."},
+  {q:"Can I change my shipping address after placing an order?",a:"You can change your shipping address within 12 hours of placing your order by contacting our support team."},
+  {q:"How do I create an account?",a:"Click 'Sign Up' at the top right, enter your email and password, and verify your email address."},
+  {q:"How do I reset my password?",a:"Click 'Forgot Password' on the login page, enter your email, and we will send you a password reset link."},
+  {q:"Do you have a warranty on products?",a:"Yes, all electronics come with a 1-year manufacturer warranty. Extended warranties are available at checkout."},
+  {q:"How do I contact customer support?",a:"You can reach our support team via live chat, email at support@techstore.com, or call 1-800-TECH-123."},
+  {q:"Can I buy online and pick up in store?",a:"Yes! Select 'Store Pickup' at checkout, choose your nearest store, and your order will be ready within 2 hours."},
+  {q:"What happens if an item is out of stock?",a:"Click 'Notify Me' on the product page and we will email you as soon as it is back in stock."},
+  {q:"Do you offer student discounts?",a:"Yes! Students get 10% off all products. Verify your student status through our student portal."},
+  {q:"How do I unsubscribe from emails?",a:"Click 'Unsubscribe' at the bottom of any email, or manage your preferences in account settings."},
+  {q:"Can I track multiple orders at once?",a:"Yes, go to 'My Orders' in your account to see all orders and their tracking status in one place."},
+  {q:"How do I leave a product review?",a:"Go to the product page, scroll to 'Customer Reviews', and click 'Write a Review'."}
+];
+
+// ── NLP: tokenize + stopword removal + cosine similarity ─
+const stopwords = new Set(["i","me","my","we","our","you","your","he","she","they","what","which","who","is","are","was","were","be","been","have","has","had","do","does","did","will","would","could","should","a","an","the","and","but","or","for","of","in","on","at","to","from","with","how","can","please","need","want","tell","give"]);
+
+function tokenize(text){
+  return text.toLowerCase().replace(/[^a-z0-9\s]/g,'').split(/\s+/).filter(w=>w&&!stopwords.has(w));
+}
+
+function cosineSimilarity(a,b){
+  const all=new Set([...a,...b]);
+  let dot=0,mA=0,mB=0;
+  all.forEach(w=>{
+    const fa=a.filter(x=>x===w).length;
+    const fb=b.filter(x=>x===w).length;
+    dot+=fa*fb; mA+=fa*fa; mB+=fb*fb;
+  });
+  return mA===0||mB===0?0:dot/(Math.sqrt(mA)*Math.sqrt(mB));
+}
+
+function findBestMatch(input){
+  const tokens=tokenize(input);
+  let best=0,idx=0;
+  faqs.forEach((f,i)=>{
+    const score=cosineSimilarity(tokens,tokenize(f.q));
+    if(score>best){best=score;idx=i;}
+  });
+  return best>0.1
+    ?{answer:faqs[idx].a,confidence:best}
+    :{answer:"Sorry, I couldn't find a relevant answer. Please try rephrasing your question.",confidence:0};
+}
+
+// ── CHAT FUNCTIONS ───────────────────────────────────────
+window.onload=()=>addBotMessage("👋 Hi! I'm TechBot, your online store assistant. Ask me anything about orders, shipping, returns, or payments!",null);
+
+function addBotMessage(text,confidence){
+  const m=document.getElementById("chatMessages");
+  const d=document.createElement("div");
+  d.className="message bot";
+  d.innerHTML=`<div class="bubble-avatar">🤖</div><div class="bubble-content"><div class="bubble">${text}</div>${confidence!==null&&confidence>0?`<span class="confidence">Match: ${Math.round(confidence*100)}%</span>`:""}</div>`;
+  m.appendChild(d);scrollToBottom();
+}
+
+function addUserMessage(text){
+  const m=document.getElementById("chatMessages");
+  const d=document.createElement("div");
+  d.className="message user";
+  d.innerHTML=`<div class="bubble-avatar">👤</div><div class="bubble-content"><div class="bubble">${text}</div></div>`;
+  m.appendChild(d);scrollToBottom();
+}
+
+function scrollToBottom(){const m=document.getElementById("chatMessages");m.scrollTop=m.scrollHeight;}
+function showTyping(show){document.getElementById("typingIndicator").classList.toggle("show",show);if(show)scrollToBottom();}
+function setDisabled(val){document.getElementById("userInput").disabled=val;document.getElementById("sendBtn").disabled=val;}
+
+function sendMessage(){
+  const input=document.getElementById("userInput");
+  const text=input.value.trim();
+  if(!text)return;
+  addUserMessage(text);
+  input.value="";
+  document.getElementById("suggestions").style.display="none";
+  showTyping(true);
+  setDisabled(true);
+  setTimeout(()=>{
+    const result=findBestMatch(text);
+    showTyping(false);
+    addBotMessage(result.answer,result.confidence);
+    setDisabled(false);
+    input.focus();
+  },800);
+}
+
+function sendSuggestion(text){document.getElementById("userInput").value=text;sendMessage();}
+document.getElementById("userInput").addEventListener("keydown",e=>{if(e.key==="Enter")sendMessage();});
+</script>
+</body>
+</html>
