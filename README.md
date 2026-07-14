@@ -1,8 +1,8 @@
-AI FAQ Chatbot
+#AI FAQ Chatbot
 
 An AI-powered FAQ chatbot that provides natural, context-aware responses using Large Language Models (LLMs). The project demonstrates LLM API integration, prompt engineering, and responsive web development.
 
-Features
+#Features
 
 * AI-powered conversational interface
 * Natural language understanding
@@ -12,7 +12,7 @@ Features
 * Responsive design
 * Dark mode support
 
-Tech Stack
+#Tech Stack
 
 Frontend
 
@@ -20,19 +20,19 @@ Frontend
 * CSS3
 * JavaScript
 
-Artificial Intelligence
+#Artificial Intelligence
 
 * Large Language Models (LLMs)
 * LLM API
 * Prompt Engineering
 
-Tools
+#Tools
 
 * Git
 * GitHub
 * VS Code
 
-Installation
+#Installation
 
 ```bash
 git clone https://github.com/ShynCode/AI-FAQ-Chatbot.git
