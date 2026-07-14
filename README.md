@@ -1,55 +1,38 @@
-##AI FAQ Chatbot
+AI FAQ Chatbot
 
-An intelligent FAQ chatbot powered by Large Language Models (LLMs) that delivers natural, context-aware responses through a modern conversational interface. Designed to demonstrate AI integration, prompt engineering, and responsive web development.
+An AI-powered FAQ chatbot that provides natural, context-aware responses using Large Language Models (LLMs). The project demonstrates LLM API integration, prompt engineering, and responsive web development.
 
-##Overview
+Features
 
-The AI FAQ Chatbot enables users to interact with an AI assistant capable of answering frequently asked questions in real time. It leverages LLM APIs to understand natural language queries and generate accurate, human-like responses while providing a clean and intuitive user experience.
+* AI-powered conversational interface
+* Natural language understanding
+* LLM API integration
+* Prompt engineering
+* ChatGPT-inspired UI
+* Responsive design
+* Dark mode support
 
-## Key Features
+Tech Stack
 
-- AI-powered conversational interface
-- Natural language understanding
-- LLM API integration
-- Prompt engineering
-- ChatGPT-inspired UI
-- Responsive design
-- Dark mode support
-- Fast and lightweight
-- Modern user experience
+Frontend
 
-## Tech Stack
+* HTML5
+* CSS3
+* JavaScript
 
-### Frontend
-- HTML5
-- CSS3
-- JavaScript
+Artificial Intelligence
 
-### Artificial Intelligence
-- Large Language Models (LLMs)
-- LLM API Integration
-- Prompt Engineering
+* Large Language Models (LLMs)
+* LLM API
+* Prompt Engineering
 
-### Tools
-- Git
-- GitHub
-- VS Code
+Tools
 
-## Project Structure
+* Git
+* GitHub
+* VS Code
 
-```text
-AI-FAQ-Chatbot/
-├── assets/
-│   ├── images/
-│   └── icons/
-├── index.html
-├── style.css
-├── script.js
-├── README.md
-└── LICENSE
-```
-
-## Installation
+Installation
 
 ```bash
 git clone https://github.com/ShynCode/AI-FAQ-Chatbot.git
@@ -58,31 +41,24 @@ cd AI-FAQ-Chatbot
 
 Open `index.html` in your browser.
 
-If using an external LLM provider, configure your API key before running the application.
+Configure your LLM API key before running the application.
 
-## Future Enhancements
+Live Demo
 
-- Conversation history
-- User authentication
-- Voice input and speech synthesis
-- File upload support
-- Markdown rendering
-- Code syntax highlighting
-- Multi-language support
-- Retrieval-Augmented Generation (RAG)
-- Knowledge base integration
-- Conversation export
-- AI model selection
-
-## Live Demo
 https://lnkd.in/dspz5uR2
 
-## Author
+Author
 
-**Shayan Khan**  
+Shayan Khan
+
 LLM Developer | AI Engineer | Full Stack Developer
 
-- GitHub: https://github.com/ShynCode
-- LinkedIn: https://linkedin.com/in/shayan-link
-- Email: shayansk425@gmail.com
+GitHub: https://github.com/ShynCode
 
+LinkedIn: https://www.linkedin.com/in/shayan-khan-243392317
+
+Email: [shayansk425@gmail.com](mailto:shayansk425@gmail.com)
+
+License
+
+MIT License
