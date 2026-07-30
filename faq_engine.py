@@ -31,7 +31,7 @@ class FAQChatbotEngine:
     def __init__(self, faq_path: Path = FAQ_PATH):
         _ensure_nltk_data()
         self.lemmatizer = WordNetLemmatizer()
-        self.stop_words = set(stopwords.words("elish"))
+        self.stop_words = set(stopwords.words("english"))
         self.faqs = self._load_faqs(faq_path)
         self._build_index()
 
