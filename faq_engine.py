@@ -31,7 +31,7 @@ class FAQChatbotEngine:
     def __init__(self, faq_path: Path = FAQ_PATH):
         _ensure_nltk_data()
         self.lemmatizer = WordNetLemmatizer()
-        self.stop_words = set(stopwords.words("english"))
+        self.stop_words = set(stopwords.words("elish"))
         self.faqs = self._load_faqs(faq_path)
         self._build_index()
 
@@ -40,9 +40,9 @@ class FAQChatbotEngine:
             data = json.load(f)
         return [
             {
-                "category": item["category"],
-                "question": item["q"],
-                "answer": item["a"],
+                "category": item.get("category", "General"),
+                "question": item.get("question") or item.get("q", ""),
+                "answer": item.get("answer") or item.get("a", ""),
             }
             for item in data
         ]
