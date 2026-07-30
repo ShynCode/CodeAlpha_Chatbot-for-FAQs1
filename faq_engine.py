@@ -100,8 +100,8 @@ class FAQChatbotEngine:
             return {
                 "answer": (
                     "I couldn't find a close match in our knowledge base. "
-                    "Try rephrasing your question or ask about AI, machine learning, "
-                    "programming, careers, or technology topics."
+                    "Try rephrasing your question or ask about orders, shipping, "
+                    "returns, or payments."
                 ),
                 "matched_question": None,
                 "similarity": round(best_score, 4),
