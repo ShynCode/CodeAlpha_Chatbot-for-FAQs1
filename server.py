@@ -27,6 +27,11 @@ def faqs_data():
     return send_from_directory(".", "faqs.json")
 
 
+@app.route("/assets/<path:filename>")
+def assets(filename):
+    return send_from_directory("assets", filename)
+
+
 @app.route("/api/health")
 def health():
     engine = get_engine()
