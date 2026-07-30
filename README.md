@@ -65,7 +65,7 @@ Open `index.html` in your browser. No build step required.
 
 ## Live Demo
 
-🔗 [View Demo](https://lnkd.in/dspz5uR2)
+🔗 https://ai-faq-chatbot-c4k0.onrender.com/chatbot.html
 
 ## Roadmap
 
